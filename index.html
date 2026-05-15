@@ -1,1 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en" =""="" foxified-44="" =""><head data-v-save-global="index.html,head">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Заповедник — сидр из Пушкинских Гор</title>
+  
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome 6 (free) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #edeae1;
+      color: #2c2b28;
+    }
+    
+    h1, h2, h3, h4, .logo-text, .product-title, .modal-title {
+      font-family: 'Playfair Display', serif;
+    }
+    
+    /* Хедер с логотипом */
+    .shop-header {
+      background: #edeae1;
+      padding: 1.2rem 0;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+    
+    .logo-img {
+      max-height: 70px;
+      width: auto;
+    }
+    
+    .logo-text {
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: #5a3d28;
+      text-decoration: none;
+      letter-spacing: 2px;
+    }
+    
+    .logo-text span {
+      color: #8b5e3c;
+      font-weight: 400;
+    }
+    
+    .tagline {
+      font-size: 0.8rem;
+      color: #8b5e3c;
+      letter-spacing: 1px;
+      margin-top: 4px;
+    }
+    
+    /* Хлебные крошки */
+    .breadcrumb {
+      background: transparent;
+      padding: 0;
+      margin-bottom: 1.5rem;
+    }
+    
+    .breadcrumb-item a {
+      color: #8b5e3c;
+      text-decoration: none;
+    }
+    
+    .breadcrumb-item.active {
+      color: #5a3d28;
+    }
+    
+    /* Карточка товара */
+    .product-card {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+    }
+    
+    .product-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+    }
+    
+    .product-image-container {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 1 / 1;
+      background: #f8f8f4;
+    }
+    
+    .product-image-default {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: opacity 0.3s ease;
+      z-index: 1;
+    }
+    
+    .product-image-hover {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 2;
+    }
+    
+    .product-image-container:hover .product-image-default {
+      opacity: 0;
+    }
+    
+    .product-image-container:hover .product-image-hover {
+      opacity: 1;
+    }
+    
+    /* Бейдж для доп инфо */
+    .product-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: #e76f51;
+      color: white;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 20px;
+      z-index: 3;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .product-badge.special {
+      background: #d4a373;
+    }
+    
+    .product-badge.new {
+      background: #2a9d8f;
+    }
+    
+    .product-badge.magnum {
+      background: #9b6a3c;
+    }
+    
+    .product-info {
+      padding: 1rem;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .product-type {
+      font-size: 11px;
+      color: #8b5e3c;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .product-type i {
+      font-size: 12px;
+    }
+    
+    .product-title {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #2c2b28;
+    }
+    
+    .product-volume {
+      font-size: 0.75rem;
+      color: #8b5e3c;
+      margin-bottom: 8px;
+    }
+    
+    .product-short-desc {
+      font-size: 0.8rem;
+      color: #666;
+      line-height: 1.4;
+      margin-bottom: 12px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    
+    .product-price {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #5a3d28;
+      margin-bottom: 12px;
+      line-height: 1.2;
+      padding-top: 2px;
+    }
+    
+    .add-to-cart-btn {
+      background: #2c2b28;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 30px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      margin-top: auto;
+      cursor: pointer;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    
+    .add-to-cart-btn:hover {
+      background: #8b5e3c;
+    }
+    
+    /* Сайдбар */
+    .sidebar-card {
+      background: white;
+      border-radius: 16px;
+      padding: 1.25rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    
+    .sidebar-card h5 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 2px solid #edeae1;
+      color: #5a3d28;
+    }
+    
+    .category-list, .manufacturer-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .category-list li, .manufacturer-list li {
+      margin-bottom: 8px;
+    }
+    
+    .category-list a, .manufacturer-list a {
+      color: #5a5a55;
+      text-decoration: none;
+      display: block;
+      padding: 4px 0;
+      transition: all 0.2s;
+      font-size: 0.85rem;
+    }
+    
+    .category-list a:hover, .manufacturer-list a:hover,
+    .category-list a.active, .manufacturer-list a.active {
+      color: #8b5e3c;
+      font-weight: 500;
+      padding-left: 8px;
+    }
+    
+    .count {
+      float: right;
+      color: #bbb;
+      font-size: 0.75rem;
+    }
+    
+    .filter-check {
+      margin-bottom: 8px;
+      font-size: 0.85rem;
+    }
+    
+    .filter-check input {
+      margin-right: 8px;
+      cursor: pointer;
+    }
+    
+    .filter-check label {
+      cursor: pointer;
+      color: #5a5a55;
+    }
+    
+    /* Пагинация */
+    .pagination-custom {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 2rem;
+    }
+    
+    .pagination-custom .page-link {
+      color: #5a3d28;
+      border: 1px solid #dee2e6;
+      border-radius: 8px;
+      padding: 6px 12px;
+      text-decoration: none;
+      transition: all 0.2s;
+      background: white;
+      font-size: 0.85rem;
+    }
+    
+    .pagination-custom .page-link:hover,
+    .pagination-custom .page-item.active .page-link {
+      background: #8b5e3c;
+      color: white;
+      border-color: #8b5e3c;
+    }
+    
+    .sort-select {
+      border: 1px solid #dee2e6;
+      border-radius: 30px;
+      padding: 6px 14px;
+      font-size: 0.85rem;
+      background: white;
+    }
+    
+    /* Корзина */
+    .cart-icon-wrapper {
+      position: relative;
+    }
+    
+    .cart-icon {
+      background: none;
+      border: none;
+      position: relative;
+      cursor: pointer;
+      font-size: 1.6rem;
+      color: #5a3d28;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .cart-count {
+      position: absolute;
+      top: -8px;
+      right: -12px;
+      background: #e76f51;
+      color: white;
+      font-size: 11px;
+      font-weight: bold;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .cart-dropdown {
+      display: none;
+      position: absolute;
+      top: 50px;
+      right: 0;
+      width: 320px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      z-index: 1000;
+      padding: 1rem;
+    }
+    
+    .cart-dropdown.show {
+      display: block;
+      animation: slideIn 0.3s ease;
+    }
+    
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    /* Модальное окно товара */
+    .product-modal .modal-content {
+      border-radius: 20px;
+      background: #edeae1;
+    }
+    
+    .product-modal .modal-header {
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+      padding: 1rem 1.5rem;
+    }
+    
+    .product-modal .modal-body {
+      padding: 1.5rem;
+    }
+    
+    .product-modal-images {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 1rem;
+    }
+    
+    .product-modal-images img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+    
+    .product-modal-main-img {
+      width: 100%;
+      border-radius: 16px;
+      margin-bottom: 1rem;
+    }
+    
+    .product-modal-label {
+      font-weight: 600;
+      color: #8b5e3c;
+      margin-top: 12px;
+      margin-bottom: 4px;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .footer {
+      background: #2c2b28;
+      color: #aaa;
+      padding: 3rem 0 1.5rem;
+      margin-top: 3rem;
+    }
+    
+    .footer a {
+      color: #aaa;
+      text-decoration: none;
+    }
+    
+    .footer a:hover {
+      color: #d4a373;
+    }
+    
+    @media (max-width: 992px) {
+      .sidebar-card {
+        margin-bottom: 1rem;
+      }
+    }
+  </style>
+<style type="text/css"></style><style id="vvvebjs-styles"></style><style type="text/css"></style><style type="text/css"></style></head>
 
+
+<body data-aos-easing="ease" data-aos-duration="400" data-aos-delay="0" class="" style="">
+
+<!-- Хедер -->
+<header class="shop-header">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center">
+      <div>
+        <a href="#" class="d-flex align-items-center text-decoration-none">
+          <img src="/media/products_photo/zapovednik_pngnf.png" alt="Заповедник" class="logo-img me-3" style="max-height: 60px;">
+          <div>
+            <div class="logo-text">ЗАПОВЕДНИК</div>
+            <div class="tagline">ТРАДИЦИОННЫЕ СИДРЫ ИЗ ПУШКИНСКИХ ГОР</div>
+          </div>
+        </a>
+      </div>
+      
+      <div class="cart-icon-wrapper">
+        <button class="cart-icon" onclick="toggleCartDropdown()">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="cart-count" id="cartCount">0</span>
+        </button>
+        <div id="cartDropdown" class="cart-dropdown">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <strong>Корзина</strong>
+            <span class="cart-modal-close" onclick="toggleCartDropdown()" style="cursor: pointer;">×</span>
+          </div>
+          <div id="cartItems"><p style="text-align: center; color: #999;">Ваша корзина пуста</p></div>
+          <div id="cartTotal" style="border-top: 1px solid #eee; padding-top: 10px; margin-top: 10px;"><strong>Итого: 0 ₽</strong></div>
+          <button class="add-to-cart-btn" style="width: 100%; margin-top: 10px;" onclick="checkout()">Оформить заказ</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="container" style="margin-bottom: 3rem; margin-top: 2rem;">
+  <div class="row g-4">
+    <!-- Левая колонка -->
+    <div class="col-lg-3">
+      <div class="sidebar-card">
+        <h5><i class="fas fa-tag me-2"></i>Тип сидра</h5>
+        <ul class="category-list" id="categoryList">
+          <li><a href="#" class="category-link active" data-category="all">Все товары <span class="count" id="countAll">23</span></a></li>
+          <li><a href="#" class="category-link" data-category="Сухой сидр">Сухой сидр <span class="count" id="countDry">8</span></a></li>
+          <li><a href="#" class="category-link" data-category="Полусухой сидр">Полусухой сидр <span class="count" id="countSemiDry">4</span></a></li>
+          <li><a href="#" class="category-link" data-category="Полусухой фруктовый сидр">Фруктовый сидр <span class="count" id="countFruit">7</span></a></li>
+        </ul>
+      </div>
+      
+      <div class="sidebar-card">
+        <h5><i class="fas fa-industry me-2"></i>Производитель</h5>
+        <div id="manufacturerFilters"><ul class="manufacturer-list"><li><div class="filter-check"><input type="checkbox" id="man_Заповедник" value="Заповедник" onchange="toggleManufacturer(this)"><label for="man_Заповедник">Заповедник</label></div></li><li><div class="filter-check"><input type="checkbox" id="man_La_Folie_de_Sukhodol" value="La Folie de Sukhodol" onchange="toggleManufacturer(this)"><label for="man_La_Folie_de_Sukhodol">La Folie de Sukhodol</label></div></li><li><div class="filter-check"><input type="checkbox" id="man_Русская_Нормандия" value="Русская Нормандия" onchange="toggleManufacturer(this)"><label for="man_Русская_Нормандия">Русская Нормандия</label></div></li><li><div class="filter-check"><input type="checkbox" id="man_Сидродельня_Трубачеевка" value="Сидродельня Трубачеевка" onchange="toggleManufacturer(this)"><label for="man_Сидродельня_Трубачеевка">Сидродельня Трубачеевка</label></div></li><li><div class="filter-check"><input type="checkbox" id="man_Сидродельня_Леонида_Леврана" value="Сидродельня Леонида Леврана" onchange="toggleManufacturer(this)"><label for="man_Сидродельня_Леонида_Леврана">Сидродельня Леонида Леврана</label></div></li><li><div class="filter-check"><input type="checkbox" id="man_Тридевятое" value="Тридевятое" onchange="toggleManufacturer(this)"><label for="man_Тридевятое">Тридевятое</label></div></li><li><div class="filter-check"><input type="checkbox" id="man_Сидродельня_Cidre'Rhino" value="Сидродельня Cidre'Rhino" onchange="toggleManufacturer(this)"><label for="man_Сидродельня_Cidre'Rhino">Сидродельня Cidre'Rhino</label></div></li><li><div class="filter-check"><input type="checkbox" id="man_Октябрь" value="Октябрь" onchange="toggleManufacturer(this)"><label for="man_Октябрь">Октябрь</label></div></li><li><div class="filter-check"><input type="checkbox" id="man_dutch" value="dutch" onchange="toggleManufacturer(this)"><label for="man_dutch">dutch</label></div></li><li><div class="filter-check"><input type="checkbox" id="man_Gurin_Craft" value="Gurin Craft" onchange="toggleManufacturer(this)"><label for="man_Gurin_Craft">Gurin Craft</label></div></li></ul></div>
+      </div>
+    </div>
+    
+    <!-- Правая колонка -->
+    <div class="col-lg-9">
+      <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Главная</a></li>
+            <li class="breadcrumb-item active">Каталог сидра</li>
+          </ol>
+        </nav>
+        <select class="sort-select" id="sortSelect">
+          <option value="default">По умолчанию</option>
+          <option value="price-asc">Сначала дешевле</option>
+          <option value="price-desc">Сначала дороже</option>
+          <option value="name-asc">По названию (А-Я)</option>
+        </select>
+      </div>
+      
+      <div class="row g-4" id="productsGrid">
+        <div class="col-md-6 col-xl-3">
+          <div class="product-card" onclick="showProductModal(0)">
+            <div class="product-image-container">
+              <img class="product-image-default" src="/media/products_photo/led_i_plamen_1.PNG" alt="Лед и Пламень" onerror="this.src='https://placehold.co/600x600/edeae1/8b5e3c?text=Ошибка'">
+              <img class="product-image-hover" src="/media/products_photo/led_i_plamen_2.PNG" alt="Лед и Пламень" onerror="this.src='https://placehold.co/600x600/edeae1/8b5e3c?text=Ошибка'">
+              <span class="product-badge magnum">МАГНУМ Эксклюзив</span>
+            </div>
+            <div class="product-info">
+              <div class="product-type"><i class="fas fa-apple-alt"></i> Сухой сидр</div>
+              <div class="product-title">Лед и Пламень</div>
+              <div class="product-volume">1500 мл</div>
+              <div class="product-short-desc">Моносортовой сидр из райского яблока в магнумах</div>
+              <div class="product-price">1995 ₽</div>
+              <button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCart(0, 'Лед и Пламень', 1995, 1500)"><i class="fas fa-shopping-cart"></i> В корзину</button>
+            </div>
+          </div>
+        </div>
+      
+        <div class="col-md-6 col-xl-3">
+          <div class="product-card" onclick="showProductModal(1)">
+            <div class="product-image-container">
+              <img class="product-image-default" src="/media/products_photo/abanamat_1.PNG" alt="Абанамат" onerror="this.src='https://placehold.co/600x600/edeae1/8b5e3c?text=Ошибка'">
+              <img class="product-image-hover" src="/media/products_photo/abanamat_2.PNG" alt="Абанамат" onerror="this.src='https://placehold.co/600x600/edeae1/8b5e3c?text=Ошибка'">
+              <span class="product-badge special">Постоянный сорт</span>
+            </div>
+            <div class="product-info">
+              <div class="product-type"><i class="fas fa-apple-alt"></i> Сухой сидр</div>
+              <div class="product-title">Абанамат</div>
+              <div class="product-volume">330 мл</div>
+              <div class="product-short-desc">Классический сухой яблочный сидр. Первый релиз 2016.</div>
+              <div class="product-price">186 ₽</div>
+              <button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCart(1, 'Абанамат', 186, 330)"><i class="fas fa-shopping-cart"></i> В корзину</button>
+            </div>
+          </div>
+        </div>
+      
+        <div class="col-md-6 col-xl-3">
+          <div class="product-card" onclick="showProductModal(2)">
+            <div class="product-image-container">
+              <img class="product-image-default" src="/media/products_photo/abanamat_1.PNG" alt="Абанамат" onerror="this.src='https://placehold.co/600x600/edeae1/8b5e3c?text=Ошибка'">
+              <img class="product-image-hover" src="/media/products_photo/abanamat_2.PNG" alt="Абанамат" onerror="this.src='https://placehold.co/600x600/edeae1/8b5e3c?text=Ошибка'">
+              <span class="product-badge special">Постоянный сорт</span>
+            </div>
+            <div class="product-info">
+              <div class="product-type"><i class="fas fa-apple-alt"></i> Сухой сидр</div>
+              <div class="product-title">Абанамат</div>
+              <div class="product-volume">450 мл</div>
+              <div class="product-short-desc">Классический сухой яблочный сидр. Первый релиз 2016.</div>
+              <div class="product-price">233 ₽</div>
+              <button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCart(2, 'Абанамат', 233, 450)"><i class="fas fa-shopping-cart"></i> В корзину</button>
+            </div>
+          </div>
+        </div>
+      
+        <div class="col-md-6 col-xl-3">
+          <div class="product-card" onclick="showProductModal(3)">
+            <div class="product-image-container">
+              <img class="product-image-default" src="/media/products_photo/gypsy_boy_1.PNG" alt="Gypsy Boy&amp;Apple Monster" onerror="this.src='https://placehold.co/600x600/edeae1/8b5e3c?text=Ошибка'">
+              <img class="product-image-hover" src="/media/products_photo/gypsy_boy_2.PNG" alt="Gypsy Boy&amp;Apple Monster" onerror="this.src='https://placehold.co/600x600/edeae1/8b5e3c?text=Ошибка'">
+              <span class="product-badge special">Постоянный сорт</span>
+            </div>
+            <div class="product-info">
+              <div class="product-type"><i class="fas fa-apple-alt"></i> Сухой сидр</div>
+              <div class="product-title">Gypsy Boy&amp;Apple Monster</div>
+              <div class="product-volume">330 мл</div>
+              <div class="product-short-desc">Сухой яблочный сидр, сброженный дикими дрожжами.</div>
+              <div class="product-price">186 ₽</div>
+              <button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCart(3, 'Gypsy Boy&amp;Apple Monster', 186, 330)"><i class="fas fa-shopping-cart"></i> В корзину</button>
+            </div>
+          </div>
+        </div>
+      
+        <div class="col-md-6 col-xl-3">
+          <div class="product-card" onclick="showProductModal(4)">
+            <div class="product-image-container">
+              <img class="product-image-default" src="/media/products_photo/gypsy_boy_1.PNG" alt="Gypsy Boy&amp;Apple Monster" onerror="this.src='https://placehold.co/600x600/edeae1/8b5e3c?text=Ошибка'">
+              <img class="product-image-hover" src="/media/products_photo/gypsy_boy_2.PNG" alt="Gypsy Boy&amp;Apple Monster" onerror="this.src='https://placehold.co/600x600/edeae1/8b5e3c?text=Ошибка'">
+              <span class="product-badge special">Постоянный сорт</span>
+            </div>
+            <div class="product-info">
+              <div class="product-type"><i class="fas fa-apple-alt"></i> Сухой сидр</div>
+              <div class="product-title">Gypsy Boy&amp;Apple Monster</div>
+              <div class="product-volume">750 мл</div>
+              <div class="product-short-desc">Сухой яблочный сидр, сброженный дикими дрожжами.</div>
+              <div class="product-price">494 ₽</div>
+              <button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCart(4, 'Gypsy Boy&amp;Apple Monster', 494, 750)"><i class="fas fa-shopping-cart"></i> В корзину</button>
+            </div>
+          </div>
+        </div>
+      
+        <div class="col-md-6 col-xl-3">
+          <div class="product-card" onclick="showProductModal(5)">
+            <div class="product-image-container">
+              <img class="product-image-default" src="/media/products_photo/igra_1.PNG" alt="Игра" onerror="this.src='https://placehold.co/600x600/edeae1/8b5e3c?text=Ошибка'">
+              <img class="product-image-hover" src="/media/products_photo/igra_2.PNG" alt="Игра" onerror="this.src='https://placehold.co/600x600/edeae1/8b5e3c?text=Ошибка'">
+              <span class="product-badge new">NEW</span>
+            </div>
+            <div class="product-info">
+              <div class="product-type"><i class="fas fa-apple-alt"></i> Сухой фруктовый сидр</div>
+              <div class="product-title">Игра</div>
+              <div class="product-volume">330 мл</div>
+              <div class="product-short-desc">Сухой сидр с добавлением сока ирги прямого отжима.</div>
+              <div class="product-price">214 ₽</div>
+              <button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCart(5, 'Игра', 214, 330)"><i class="fas fa-shopping-cart"></i> В корзину</button>
+            </div>
+          </div>
+        </div>
+      
+        <div class="col-md-6 col-xl-3">
+          <div class="product-card" onclick="showProductModal(6)">
+            <div class="product-image-container">
+              <img class="product-image-default" src="/media/products_photo/lavender_1.PNG" alt="LavenderХ Бутылист" onerror="this.src='https://placehold.co/600x600/edeae1/8b5e3c?text=Ошибка'">
+              <img class="product-image-hover" src="/media/products_photo/lavender_2.PNG" alt="LavenderХ Бутылист" onerror="this.src='https://placehold.co/600x600/edeae1/8b5e3c?text=Ошибка'">
+              
+            </div>
+            <div class="product-info">
+              <div class="product-type"><i class="fas fa-apple-alt"></i> Полусухой фруктовый сидр</div>
+              <div class="product-title">LavenderХ Бутылист</div>
+              <div class="product-volume">330 мл</div>
+              <div class="product-short-desc">Полусухой сидр с цветами лаванды и можжевельником. Коллаборация.</div>
+              <div class="product-price">214 ₽</div>
+              <button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCart(6, 'LavenderХ Бутылист', 214, 330)"><i class="fas fa-shopping-cart"></i> В корзину</button>
+            </div>
+          </div>
+        </div>
+      
+        <div class="col-md-6 col-xl-3">
+          <div class="product-card" onclick="showProductModal(7)">
+            <div class="product-image-container">
+              <img class="product-image-default" src="/media/products_photo/compromis_1.PNG" alt="Компромисс" onerror="this.src='https://placehold.co/600x600/edeae1/8b5e3c?text=Ошибка'">
+              <img class="product-image-hover" src="/media/products_photo/compromis_2.PNG" alt="Компромисс" onerror="this.src='https://placehold.co/600x600/edeae1/8b5e3c?text=Ошибка'">
+              
+            </div>
+            <div class="product-info">
+              <div class="product-type"><i class="fas fa-apple-alt"></i> Полусухой сидр</div>
+              <div class="product-title">Компромисс</div>
+              <div class="product-volume">233 мл</div>
+              <div class="product-short-desc">Полусухой яблочный сидр из сока прямого отжима.</div>
+              <div class="product-price">450 ₽</div>
+              <button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCart(7, 'Компромисс', 450, 233)"><i class="fas fa-shopping-cart"></i> В корзину</button>
+            </div>
+          </div>
+        </div>
+      
+        <div class="col-md-6 col-xl-3">
+          <div class="product-card" onclick="showProductModal(8)">
+            <div class="product-image-container">
+              <img class="product-image-default" src="https://placehold.co/600x600/edeae1/8b5e3c?text=Нет+фото" alt="Пряник" onerror="this.src='https://placehold.co/600x600/edeae1/8b5e3c?text=Ошибка'">
+              <img class="product-image-hover" src="https://placehold.co/600x600/edeae1/8b5e3c?text=Нет+фото" alt="Пряник" onerror="this.src='https://placehold.co/600x600/edeae1/8b5e3c?text=Ошибка'">
+              
+            </div>
+            <div class="product-info">
+              <div class="product-type"><i class="fas fa-apple-alt"></i> Полусухой сидр</div>
+              <div class="product-title">Пряник</div>
+              <div class="product-volume">214 мл</div>
+              <div class="product-short-desc">Полусухой сидр с ягодами можжевельника, розовым перцем, гвоздикой, корицей.</div>
+              <div class="product-price">330 ₽</div>
+              <button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCart(8, 'Пряник', 330, 214)"><i class="fas fa-shopping-cart"></i> В корзину</button>
+            </div>
+          </div>
+        </div>
+      
+        <div class="col-md-6 col-xl-3">
+          <div class="product-card" onclick="showProductModal(9)">
+            <div class="product-image-container">
+              <img class="product-image-default" src="https://placehold.co/600x600/edeae1/8b5e3c?text=Нет+фото" alt="Со страхом и любовью" onerror="this.src='https://placehold.co/600x600/edeae1/8b5e3c?text=Ошибка'">
+              <img class="product-image-hover" src="https://placehold.co/600x600/edeae1/8b5e3c?text=Нет+фото" alt="Со страхом и любовью" onerror="this.src='https://placehold.co/600x600/edeae1/8b5e3c?text=Ошибка'">
+              
+            </div>
+            <div class="product-info">
+              <div class="product-type"><i class="fas fa-apple-alt"></i> Полусухой сидр</div>
+              <div class="product-title">Со страхом и любовью</div>
+              <div class="product-volume">330 мл</div>
+              <div class="product-short-desc">С добавлением сока тыквы. Свежесть яблок и легкая сладость тыквы.</div>
+              <div class="product-price">214 ₽</div>
+              <button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCart(9, 'Со страхом и любовью', 214, 330)"><i class="fas fa-shopping-cart"></i> В корзину</button>
+            </div>
+          </div>
+        </div>
+      
+        <div class="col-md-6 col-xl-3">
+          <div class="product-card" onclick="showProductModal(10)">
+            <div class="product-image-container">
+              <img class="product-image-default" src="https://placehold.co/600x600/edeae1/8b5e3c?text=Нет+фото" alt="Северное Лето" onerror="this.src='https://placehold.co/600x600/edeae1/8b5e3c?text=Ошибка'">
+              <img class="product-image-hover" src="https://placehold.co/600x600/edeae1/8b5e3c?text=Нет+фото" alt="Северное Лето" onerror="this.src='https://placehold.co/600x600/edeae1/8b5e3c?text=Ошибка'">
+              <span class="product-badge new">NEW</span>
+            </div>
+            <div class="product-info">
+              <div class="product-type"><i class="fas fa-apple-alt"></i> Полусухой фруктовый сидр</div>
+              <div class="product-title">Северное Лето</div>
+              <div class="product-volume">330 мл</div>
+              <div class="product-short-desc">Ассамбляж моноягодных сидров: черника, брусника, черноплодная рябина, калина.</div>
+              <div class="product-price">214 ₽</div>
+              <button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCart(10, 'Северное Лето', 214, 330)"><i class="fas fa-shopping-cart"></i> В корзину</button>
+            </div>
+          </div>
+        </div>
+      
+        <div class="col-md-6 col-xl-3">
+          <div class="product-card" onclick="showProductModal(11)">
+            <div class="product-image-container">
+              <img class="product-image-default" src="https://placehold.co/600x600/edeae1/8b5e3c?text=Ошибка" alt="Top Hat" onerror="this.src='https://placehold.co/600x600/edeae1/8b5e3c?text=Ошибка'">
+              <img class="product-image-hover" src="https://placehold.co/600x600/edeae1/8b5e3c?text=Ошибка" alt="Top Hat" onerror="this.src='https://placehold.co/600x600/edeae1/8b5e3c?text=Ошибка'">
+              <span class="product-badge special">Постоянный сорт</span>
+            </div>
+            <div class="product-info">
+              <div class="product-type"><i class="fas fa-apple-alt"></i> Полусухой сидр</div>
+              <div class="product-title">Top Hat</div>
+              <div class="product-volume">330 мл</div>
+              <div class="product-short-desc">Охмеленный сидр с хмелем Mosaic и Nelson Sauvin.</div>
+              <div class="product-price">214 ₽</div>
+              <button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCart(11, 'Top Hat', 214, 330)"><i class="fas fa-shopping-cart"></i> В корзину</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pagination-custom" id="pagination"><div class="page-item disabled"><a class="page-link" href="#" onclick="changePage(0); return false;">«</a></div><div class="page-item active"><a class="page-link" href="#" onclick="changePage(1); return false;">1</a></div><div class="page-item "><a class="page-link" href="#" onclick="changePage(2); return false;">2</a></div><div class="page-item "><a class="page-link" href="#" onclick="changePage(2); return false;">»</a></div></div>
+    </div>
+  </div>
+</main>
+
+<!-- Модальное окно товара -->
+<div class="modal fade product-modal" id="productModal" tabindex="-1" style="display: none;" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalTitle">Лед и Пламень (1500 мл)</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body" id="modalBody">
+      <div class="row">
+        <div class="col-md-6">
+          <img src="http://localhost:8080/media/products_photo/led_i_plamen_1.png" class="product-modal-main-img" alt="Лед и Пламень" style="width:100%; border-radius:16px;">
+          <div class="product-modal-images">
+            <img src="/media/products_photo/led_i_plamen_1.png" alt="Фото 1" onclick="changeMainImage(this.src)">
+            <img src="/media/products_photo/abanamat_2.PNG" alt="Фото 2" onclick="changeMainImage(this.src)">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="product-modal-label">Тип</div><p>Сухой сидр</p>
+          <div class="product-modal-label">Объем</div><p>1500 мл</p>
+          <div class="product-modal-label">Крепость</div><p>6%</p>
+          <div class="product-modal-label">Цена</div><p style="font-size:1.5rem; font-weight:700;">1995 ₽</p>
+          <div class="product-modal-label">Описание</div><p>Моносортовой сидр, изготовленный из райского яблока, более года выдержанный в дубовой бочке. Вторичная ферментация в магнумах.</p>
+          <div class="product-modal-label">Этикетка</div><p><em>Картина Дениса Евсигнеева</em></p>
+          <button class="add-to-cart-btn" onclick="addToCart(0, 'Лед и Пламень', 1995, 1500); bootstrap.Modal.getInstance(document.getElementById('productModal')).hide();"><i class="fas fa-shopping-cart"></i> Добавить в корзину</button>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 mb-4">
+        <h5 style="color: #d4a373;">Заповедник</h5>
+        <p class="small">Традиционные сидры из Пушкинских Гор. Натуральные яблочные сидры, созданные с любовью к традициям.</p>
+      </div>
+      <div class="col-md-2 mb-4">
+        <h6>Информация</h6>
+        <ul class="list-unstyled small"><li><a href="#">О нас</a></li><li><a href="#">Доставка</a></li><li><a href="#">Оплата</a></li></ul>
+      </div>
+      <div class="col-md-2 mb-4">
+        <h6>Помощь</h6>
+        <ul class="list-unstyled small"><li><a href="#">Контакты</a></li><li><a href="#">Возврат</a></li><li><a href="#">Вопрос-ответ</a></li></ul>
+      </div>
+      <div class="col-md-4 mb-4">
+        <h6>Контакты</h6>
+        <p class="small">+7 (999) 123-45-67<br>info@zapovednik-cider.ru</p>
+        <div class="d-flex gap-3"><a href="#"><i class="fab fa-telegram"></i></a><a href="#"><i class="fab fa-whatsapp"></i></a><a href="#"><i class="fab fa-vk"></i></a></div>
+      </div>
+    </div>
+    <hr class="opacity-25">
+    <div class="text-center small">© 2025 Заповедник. Все права защищены.</div>
+  </div>
+</footer>
+
+<script>
+  // Данные товаров (с добавленными фотографиями)
+  const productsData = [
+    { name: "Лед и Пламень", extraInfo: "МАГНУМ Эксклюзив", type: "Сухой сидр", volume: 1500, shortDesc: "Моносортовой сидр из райского яблока в магнумах", fullDesc: "Моносортовой сидр, изготовленный из райского яблока, более года выдержанный в дубовой бочке. Вторичная ферментация в магнумах.", price: 1995, image1: "/media/products_photo/led_i_plamen_1.PNG", image2: "/media/products_photo/led_i_plamen_2.PNG", label: "Картина Дениса Евсигнеева", abv: 6.0, manufacturer: "Заповедник" },
+    { name: "Абанамат", extraInfo: "Постоянный сорт", type: "Сухой сидр", volume: 330, shortDesc: "Классический сухой яблочный сидр. Первый релиз 2016.", fullDesc: "Традиционный сухой сидр. Натуральный яблочный сок прямого отжима, чистая культура сидровых дрожжей. Выпускается с 2016 года.", price: 186, image1: "/media/products_photo/abanamat_1.PNG", image2: "/media/products_photo/abanamat_2.PNG", label: "История про деда Довлатова", abv: 5.0, manufacturer: "Заповедник" },
+    { name: "Абанамат", extraInfo: "Постоянный сорт", type: "Сухой сидр", volume: 450, shortDesc: "Классический сухой яблочный сидр. Первый релиз 2016.", fullDesc: "Традиционный сухой сидр. Натуральный яблочный сок прямого отжима, чистая культура сидровых дрожжей.", price: 233, image1: "/media/products_photo/abanamat_1.PNG", image2: "/media/products_photo/abanamat_2.PNG", label: "История про деда Довлатова", abv: 5.5, manufacturer: "Заповедник" },
+    { name: "Gypsy Boy&Apple Monster", extraInfo: "Постоянный сорт", type: "Сухой сидр", volume: 330, shortDesc: "Сухой яблочный сидр, сброженный дикими дрожжами.", fullDesc: "Сухой яблочный сидр, сброженный дикими дрожжами. Яркий, аутентичный вкус.", price: 186, image1: "/media/products_photo/gypsy_boy_1.PNG", image2: "/media/products_photo/gypsy_boy_2.PNG", label: "", abv: 6.0, manufacturer: "Заповедник" },
+    { name: "Gypsy Boy&Apple Monster", extraInfo: "Постоянный сорт", type: "Сухой сидр", volume: 750, shortDesc: "Сухой яблочный сидр, сброженный дикими дрожжами.", fullDesc: "Сухой яблочный сидр, сброженный дикими дрожжами.", price: 494, image1: "/media/products_photo/gypsy_boy_1.PNG", image2: "/media/products_photo/gypsy_boy_2.PNG", label: "", abv: 5.0, manufacturer: "Заповедник" },
+    { name: "Игра", extraInfo: "NEW", type: "Сухой фруктовый сидр", volume: 330, shortDesc: "Сухой сидр с добавлением сока ирги прямого отжима.", fullDesc: "Сухой сидр с добавлением сока ирги прямого отжима. Яркий, узнаваемый сидр со сбалансированным вкусом.", price: 214, image1: "/media/products_photo/igra_1.PNG", image2: "/media/products_photo/igra_2.PNG", label: "", abv: 5.0, manufacturer: "Заповедник" },
+    { name: "LavenderХ Бутылист", extraInfo: "", type: "Полусухой фруктовый сидр", volume: 330, shortDesc: "Полусухой сидр с цветами лаванды и можжевельником. Коллаборация.", fullDesc: "Полусухой сидр с цветами лаванды и можжевельником. Коллаборация Заповедника и Бутылиста.", price: 214, image1: "/media/products_photo/lavender_1.PNG", image2: "/media/products_photo/lavender_2.PNG", label: "", abv: 5.5, manufacturer: "Заповедник" },
+    { name: "Компромисс", extraInfo: "", type: "Полусухой сидр", volume: 233, shortDesc: "Полусухой яблочный сидр из сока прямого отжима.", fullDesc: "Полусухой яблочный сидр из сока прямого отжима. Ноты спелых яблок и тонкие оттенки древесины.", price: 450, image1: "/media/products_photo/compromis_1.PNG", image2: "/media/products_photo/compromis_2.PNG", label: "", abv: 5.5, manufacturer: "Заповедник" },
+    { name: "Пряник", extraInfo: "", type: "Полусухой сидр", volume: 214, shortDesc: "Полусухой сидр с ягодами можжевельника, розовым перцем, гвоздикой, корицей.", fullDesc: "Полусухой сидр с пряностями: можжевельник, розовый перец, гвоздика, корица.", price: 330, image1: "", image2: "", label: "", abv: 5.5, manufacturer: "Заповедник" },
+    { name: "Со страхом и любовью", extraInfo: "", type: "Полусухой сидр", volume: 330, shortDesc: "С добавлением сока тыквы. Свежесть яблок и легкая сладость тыквы.", fullDesc: "Полусухой сидр с добавлением сока тыквы.", price: 214, image1: "", image2: "", label: "", abv: 5.5, manufacturer: "Заповедник" },
+    { name: "Северное Лето", extraInfo: "NEW", type: "Полусухой фруктовый сидр", volume: 330, shortDesc: "Ассамбляж моноягодных сидров: черника, брусника, черноплодная рябина, калина.", fullDesc: "Ассамбляж фруктовых моноягодных сидров с добавлением дикой лесной яблони.", price: 214, image1: "", image2: "", label: "", abv: 5.5, manufacturer: "Заповедник" },
+    { name: "Top Hat", extraInfo: "Постоянный сорт", type: "Полусухой сидр", volume: 330, shortDesc: "Охмеленный сидр с хмелем Mosaic и Nelson Sauvin.", fullDesc: "Полусухой яблочный сидр, охмеленный сортами Mosaic и Nelson Sauvin.", price: 214, image1: "/media/products_photo/top_hat_1.jpg", image2: "/media/products_photo/top_hat_2.jpg", label: "", abv: 5.5, manufacturer: "Заповедник" },
+    { name: "Гробовщикъ Х Horror Brewing", extraInfo: "", type: "Полусухой фруктовый сидр", volume: 330, shortDesc: "Охмеленный сидр с соком брусники. Коллаборация.", fullDesc: "Охмеленный сидр с добавлением сока брусники прямого отжима. Коллаборация с Horror Brewing.", price: 214, image1: "", image2: "", label: "", abv: 5.5, manufacturer: "Заповедник" },
+    { name: "Le Shouga Pet Nat", extraInfo: "", type: "Сухой сидр", volume: 750, shortDesc: "Игристое из 100% сока дикой лесной яблони (Лешуги). Дображивание в бутылке.", fullDesc: "Сухой игристый сидр из 100% сока дикой лесной яблони (Лешуги) с дображиванием в бутылке.", price: 825, image1: "", image2: "", label: "", abv: 6.0, manufacturer: "Заповедник" },
+    { name: "БарКас Х Биргик", extraInfo: "", type: "Полусухой фруктовый сидр", volume: 330, shortDesc: "Охмеленный сидр с соком черноплодной рябины.", fullDesc: "Полусухой охмеленный сидр с соком черноплодной рябины. Часть средств в фонд «Dalmatian Help».", price: 214, image1: "", image2: "", label: "", abv: 5.7, manufacturer: "La Folie de Sukhodol" },
+    { name: "Ревность", extraInfo: "", type: "Сухой сидр", volume: 330, shortDesc: "Сухой сидр с добавлением сока ревеня.", fullDesc: "Сухой сидр с добавлением сока ревеня прямого отжима.", price: 214, image1: "", image2: "", label: "", abv: 5.0, manufacturer: "Заповедник" },
+    { name: "Заповедник Pet Nat", extraInfo: "", type: "Сухой сидр", volume: 750, shortDesc: "Сухой игристый сидр с дображиванием в бутылке.", fullDesc: "Сухой игристый сидр с дображиванием в бутылке.", price: 658, image1: "", image2: "", label: "", abv: 5.5, manufacturer: "Заповедник" },
+    { name: "Placebo", extraInfo: "", type: "Полусухой фруктовый сидр", volume: 330, shortDesc: "Сидр с соком черноплодной рябины.", fullDesc: "Полусухой сидр с соком черноплодной рябины прямого отжима.", price: 214, image1: "", image2: "", label: "", abv: 6.0, manufacturer: "Заповедник" },
+    { name: "School of seven bells", extraInfo: "", type: "Сухой фруктовый сидр", volume: 330, shortDesc: "С добавлением сока жимолости.", fullDesc: "Сухой сидр с добавлением сока жимолости прямого отжима.", price: 214, image1: "", image2: "", label: "", abv: 6.0, manufacturer: "Заповедник" },
+    { name: "Umeboshi", extraInfo: "", type: "Сухой фруктовый сидр", volume: 330, shortDesc: "С добавлением сока желтой сливы.", fullDesc: "Сухой сидр с добавлением сока желтой сливы прямого отжима.", price: 214, image1: "", image2: "", label: "", abv: 6.0, manufacturer: "Заповедник" },
+    { name: "Lingonapple", extraInfo: "", type: "Сухой фруктовый сидр", volume: 330, shortDesc: "С добавлением сока брусники.", fullDesc: "Сухой сидр с добавлением сока брусники прямого отжима.", price: 214, image1: "", image2: "", label: "", abv: 6.0, manufacturer: "Заповедник" },
+    { name: "Blueberry Monday", extraInfo: "", type: "Полусухой фруктовый сидр", volume: 330, shortDesc: "Спонтанное брожение с соком голубики.", fullDesc: "Полусухой сидр спонтанного брожения с добавлением сока голубики прямого отжима.", price: 214, image1: "", image2: "", label: "", abv: 6.0, manufacturer: "Заповедник" },
+    { name: "Роман с невинностью", extraInfo: "NEW", type: "Полусухой фруктовый сидр", volume: 330, shortDesc: "С добавлением сока айвы.", fullDesc: "Фруктовый полусухой сидр с добавлением сока айвы прямого отжима.", price: 214, image1: "", image2: "", label: "", abv: 5.2, manufacturer: "Заповедник" }
+  ];
+
+  const manufacturersList = ["Заповедник", "La Folie de Sukhodol", "Русская Нормандия", "Сидродельня Трубачеевка", "Сидродельня Леонида Леврана", "Тридевятое", "Сидродельня Cidre'Rhino", "Октябрь", "dutch", "Gurin Craft"];
+  let currentCategory = "all";
+  let currentManufacturers = new Set();
+  let currentSort = "default";
+  let currentPage = 1;
+  const itemsPerPage = 12;
+  let cart = [];
+
+  function getBadgeClass(extraInfo) {
+    if (!extraInfo) return null;
+    if (extraInfo.includes("МАГНУМ")) return "magnum";
+    if (extraInfo.includes("NEW")) return "new";
+    if (extraInfo.includes("Постоянный")) return "special";
+    return "special";
+  }
+
+  function getImageUrl(imgPath) {
+    return imgPath && imgPath.trim() !== "" ? imgPath : "https://placehold.co/600x600/edeae1/8b5e3c?text=Нет+фото";
+  }
+
+  function updateCategoryCounts() {
+    const total = productsData.length;
+    const dry = productsData.filter(p => p.type === "Сухой сидр").length;
+    const semi = productsData.filter(p => p.type === "Полусухой сидр").length;
+    const fruit = productsData.filter(p => p.type === "Полусухой фруктовый сидр").length;
+    document.getElementById("countAll").textContent = total;
+    document.getElementById("countDry").textContent = dry;
+    document.getElementById("countSemiDry").textContent = semi;
+    document.getElementById("countFruit").textContent = fruit;
+  }
+
+  function filterProducts() {
+    let filtered = [...productsData];
+    if (currentCategory !== "all") filtered = filtered.filter(p => p.type === currentCategory);
+    if (currentManufacturers.size > 0) filtered = filtered.filter(p => currentManufacturers.has(p.manufacturer));
+    if (currentSort === "price-asc") filtered.sort((a,b) => a.price - b.price);
+    else if (currentSort === "price-desc") filtered.sort((a,b) => b.price - a.price);
+    else if (currentSort === "name-asc") filtered.sort((a,b) => a.name.localeCompare(b.name));
+    return filtered;
+  }
+
+  function renderProducts() {
+    const filtered = filterProducts();
+    const totalPages = Math.ceil(filtered.length / itemsPerPage);
+    const start = (currentPage-1)*itemsPerPage;
+    const paginated = filtered.slice(start, start+itemsPerPage);
+    const grid = document.getElementById("productsGrid");
+    if(paginated.length === 0) { grid.innerHTML = '<div class="col-12 text-center py-5"><p>Товары не найдены</p></div>'; document.getElementById("pagination").innerHTML = ""; return; }
+    let html = "";
+    for(const p of paginated) {
+      const badgeClass = getBadgeClass(p.extraInfo);
+      const badgeHtml = badgeClass ? `<span class="product-badge ${badgeClass}">${p.extraInfo}</span>` : "";
+      const typeIcon = p.type.includes("Сухой") ? "🍎" : (p.type.includes("Полусухой") ? "🍏" : "🍓");
+      html += `
+        <div class="col-md-6 col-xl-3">
+          <div class="product-card" onclick="showProductModal(${productsData.indexOf(p)})">
+            <div class="product-image-container">
+              <img class="product-image-default" src="${getImageUrl(p.image1)}" alt="${p.name}" onerror="this.src='https://placehold.co/600x600/edeae1/8b5e3c?text=Ошибка'">
+              <img class="product-image-hover" src="${getImageUrl(p.image2)}" alt="${p.name}" onerror="this.src='https://placehold.co/600x600/edeae1/8b5e3c?text=Ошибка'">
+              ${badgeHtml}
+            </div>
+            <div class="product-info">
+              <div class="product-type"><i class="fas fa-apple-alt"></i> ${p.type}</div>
+              <div class="product-title">${p.name}</div>
+              <div class="product-volume">${p.volume} мл</div>
+              <div class="product-short-desc">${p.shortDesc.substring(0,80)}${p.shortDesc.length>80?"...":""}</div>
+              <div class="product-price">${p.price} ₽</div>
+              <button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCart(${productsData.indexOf(p)}, '${p.name.replace(/'/g,"\\'")}', ${p.price}, ${p.volume})"><i class="fas fa-shopping-cart"></i> В корзину</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+    grid.innerHTML = html;
+    renderPagination(totalPages);
+  }
+
+  function renderPagination(totalPages) {
+    if(totalPages<=1) { document.getElementById("pagination").innerHTML=""; return; }
+    let html = `<div class="page-item ${currentPage===1?'disabled':''}"><a class="page-link" href="#" onclick="changePage(${currentPage-1}); return false;">«</a></div>`;
+    for(let i=1;i<=totalPages;i++) html += `<div class="page-item ${currentPage===i?'active':''}"><a class="page-link" href="#" onclick="changePage(${i}); return false;">${i}</a></div>`;
+    html += `<div class="page-item ${currentPage===totalPages?'disabled':''}"><a class="page-link" href="#" onclick="changePage(${currentPage+1}); return false;">»</a></div>`;
+    document.getElementById("pagination").innerHTML = html;
+  }
+
+  function changePage(page) { const filtered=filterProducts(); const totalPages=Math.ceil(filtered.length/itemsPerPage); if(page<1||page>totalPages) return; currentPage=page; renderProducts(); window.scrollTo({top:0,behavior:"smooth"}); }
+
+  function showProductModal(index) {
+    const p = productsData[index];
+    document.getElementById("modalTitle").textContent = `${p.name} (${p.volume} мл)`;
+    document.getElementById("modalBody").innerHTML = `
+      <div class="row">
+        <div class="col-md-6">
+          <img src="${getImageUrl(p.image1)}" class="product-modal-main-img" alt="${p.name}" style="width:100%; border-radius:16px;">
+          <div class="product-modal-images">
+            <img src="${getImageUrl(p.image1)}" alt="Фото 1" onclick="changeMainImage(this.src)">
+            <img src="${getImageUrl(p.image2||p.image1)}" alt="Фото 2" onclick="changeMainImage(this.src)">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="product-modal-label">Тип</div><p>${p.type}</p>
+          <div class="product-modal-label">Объем</div><p>${p.volume} мл</p>
+          <div class="product-modal-label">Крепость</div><p>${p.abv}%</p>
+          <div class="product-modal-label">Цена</div><p style="font-size:1.5rem; font-weight:700;">${p.price} ₽</p>
+          <div class="product-modal-label">Описание</div><p>${p.fullDesc||p.shortDesc}</p>
+          ${p.label ? `<div class="product-modal-label">Этикетка</div><p><em>${p.label}</em></p>` : ""}
+          <button class="add-to-cart-btn" onclick="addToCart(${index}, '${p.name.replace(/'/g,"\\'")}', ${p.price}, ${p.volume}); bootstrap.Modal.getInstance(document.getElementById('productModal')).hide();"><i class="fas fa-shopping-cart"></i> Добавить в корзину</button>
+        </div>
+      </div>
+    `;
+    new bootstrap.Modal(document.getElementById("productModal")).show();
+  }
+
+  function changeMainImage(src) { const main=document.querySelector(".product-modal-main-img"); if(main) main.src=src; }
+
+  function addToCart(idx,name,price,vol) {
+    const existing=cart.find(i=>i.productIndex===idx);
+    if(existing) existing.quantity++;
+    else cart.push({productIndex:idx,name,price,volume:vol,quantity:1});
+    updateCartDisplay();
+    showCartTemporarily();
+  }
+  function removeFromCart(idx) { cart=cart.filter(i=>i.productIndex!==idx); updateCartDisplay(); }
+  function updateCartDisplay() {
+    const totalItems=cart.reduce((s,i)=>s+i.quantity,0);
+    const totalSum=cart.reduce((s,i)=>s+i.price*i.quantity,0);
+    document.getElementById("cartCount").textContent=totalItems;
+    const itemsDiv=document.getElementById("cartItems");
+    if(cart.length===0) { itemsDiv.innerHTML='<p style="text-align:center;color:#999;">Ваша корзина пуста</p>'; document.getElementById("cartTotal").innerHTML='<strong>Итого: 0 ₽</strong>'; return; }
+    let html="";
+    cart.forEach(i=>{ html+=`<div style="display:flex;justify-content:space-between;margin-bottom:10px;font-size:0.85rem;"><div><strong>${i.name}</strong><div style="color:#888;">${i.volume} мл · ${i.quantity} x ${i.price} ₽</div></div><div><button onclick="removeFromCart(${i.productIndex})" style="background:none;border:none;color:#e76f51;"><i class="fas fa-trash-alt"></i></button></div></div>`; });
+    itemsDiv.innerHTML=html;
+    document.getElementById("cartTotal").innerHTML=`<strong>Итого: ${totalSum} ₽</strong>`;
+  }
+  function toggleCartDropdown() { document.getElementById("cartDropdown").classList.toggle("show"); }
+  function showCartTemporarily() { const d=document.getElementById("cartDropdown"); d.classList.add("show"); setTimeout(()=>d.classList.remove("show"),2000); }
+  function checkout() { if(cart.length===0){ alert("Корзина пуста!"); return; } alert("Спасибо за заказ! С вами свяжется менеджер."); cart=[]; updateCartDisplay(); toggleCartDropdown(); }
+
+  function initManufacturerFilters() {
+    const container=document.getElementById("manufacturerFilters");
+    let html='<ul class="manufacturer-list">';
+    manufacturersList.forEach(man=>{ html+=`<li><div class="filter-check"><input type="checkbox" id="man_${man.replace(/\s/g,'_')}" value="${man}" onchange="toggleManufacturer(this)"><label for="man_${man.replace(/\s/g,'_')}">${man}</label></div></li>`; });
+    html+='</ul>';
+    container.innerHTML=html;
+  }
+  function toggleManufacturer(cb) { if(cb.checked) currentManufacturers.add(cb.value); else currentManufacturers.delete(cb.value); currentPage=1; renderProducts(); }
+
+  document.querySelectorAll(".category-link").forEach(link=>{ link.addEventListener("click",(e)=>{ e.preventDefault(); const cat=link.getAttribute("data-category"); currentCategory=cat; currentPage=1; document.querySelectorAll(".category-link").forEach(l=>l.classList.remove("active")); link.classList.add("active"); renderProducts(); }); });
+  document.getElementById("sortSelect").addEventListener("change",(e)=>{ currentSort=e.target.value; currentPage=1; renderProducts(); });
+  document.addEventListener("click",(event)=>{ const dropdown=document.getElementById("cartDropdown"); const icon=document.querySelector(".cart-icon"); if(dropdown.classList.contains("show") && !dropdown.contains(event.target) && !icon.contains(event.target)) dropdown.classList.remove("show"); });
+
+  updateCategoryCounts();
+  initManufacturerFilters();
+  renderProducts();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body></html>
